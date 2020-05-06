@@ -35,12 +35,17 @@ public:
   CEdit m_editSearch;
   CButton m_checkSearchName;
   CButton m_checkSearchTooltip;
+  CListBox m_listOne;
+  CListBox m_listTwo;
+  CListBox m_listThree;
+  CListBox m_listFour;
 
 	//}}AFX_VIRTUAL
 
   void ReInitializeTree();
   void FillTree();
   void OnSearch();
+  int GetItemIndexFromList(const CListBox &list, const CString &strItemText);
 
 // Implementation
 protected:
@@ -71,6 +76,10 @@ public:
   afx_msg void OnBnClickedRadioThree();
   afx_msg void OnBnClickedRadioFour();
   afx_msg void OnCheckClickedSrchCriteria();
+  afx_msg void OnCheckboxOneClicked(NMHDR* pNotifyStruct, LRESULT* result);
+  afx_msg void OnCheckboxTwoClicked(NMHDR* pNotifyStruct, LRESULT* result);
+  afx_msg void OnCheckboxThreeClicked(NMHDR* pNotifyStruct, LRESULT* result);
+  afx_msg void OnCheckboxFourClicked(NMHDR* pNotifyStruct, LRESULT* result);
 };
 
 //{{AFX_INSERT_LOCATION}}

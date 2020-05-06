@@ -2,6 +2,7 @@
 // 
 
 #include "stdafx.h"
+#include <Windows.h>
 #include "CheckboxesTree.h"
 #include "CheckboxesTreeDlg.h"
 
@@ -66,8 +67,8 @@ CCheckboxesTreeDlg::CCheckboxesTreeDlg(CWnd* pParent /*=NULL*/)
 
 void CCheckboxesTreeDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CCheckboxesTreeDlg)
+  CDialog::DoDataExchange(pDX);
+  //{{AFX_DATA_MAP(CCheckboxesTreeDlg)
   DDX_Control(pDX, IDC_TREE, m_tree);
   DDX_Control(pDX, IDC_EDIT_SEARCH, m_editSearch);
   DDX_Control(pDX, IDC_RADIO_NONE, m_radioNone);
@@ -77,11 +78,15 @@ void CCheckboxesTreeDlg::DoDataExchange(CDataExchange* pDX)
   DDX_Control(pDX, IDC_RADIO_FOUR, m_radioFour);
   DDX_Control(pDX, IDC_CHECK_SRCH_NAME, m_checkSearchName);
   DDX_Control(pDX, IDC_CHECK_SRCH_TOOLTIP, m_checkSearchTooltip);
-	//}}AFX_DATA_MAP
+  DDX_Control(pDX, IDC_LIST_ONE, m_listOne);
+  DDX_Control(pDX, IDC_LIST_TWO, m_listTwo);
+  DDX_Control(pDX, IDC_LIST_THREE, m_listThree);
+  DDX_Control(pDX, IDC_LIST_FOUR, m_listFour);
+  //}}AFX_DATA_MAP
 }
 
 BEGIN_MESSAGE_MAP(CCheckboxesTreeDlg, CDialog)
-	//{{AFX_MSG_MAP(CCheckboxesTreeDlg)
+  //{{AFX_MSG_MAP(CCheckboxesTreeDlg)
   ON_BN_CLICKED(IDC_RADIO_NONE, OnBnClickedRadioNone)
   ON_BN_CLICKED(IDC_RADIO_ONE, OnBnClickedRadioOne)
   ON_BN_CLICKED(IDC_RADIO_TWO, OnBnClickedRadioTwo)
@@ -89,6 +94,11 @@ BEGIN_MESSAGE_MAP(CCheckboxesTreeDlg, CDialog)
   ON_BN_CLICKED(IDC_RADIO_FOUR, OnBnClickedRadioFour)
   ON_BN_CLICKED(IDC_CHECK_SRCH_NAME, OnCheckClickedSrchCriteria)
   ON_BN_CLICKED(IDC_CHECK_SRCH_TOOLTIP, OnCheckClickedSrchCriteria)
+  ON_NOTIFY(TVN_ITEM_CHECK_ONE, IDC_TREE, OnCheckboxOneClicked)
+  ON_NOTIFY(TVN_ITEM_CHECK_TWO, IDC_TREE, OnCheckboxTwoClicked)
+  ON_NOTIFY(TVN_ITEM_CHECK_THREE, IDC_TREE, OnCheckboxThreeClicked)
+  ON_NOTIFY(TVN_ITEM_CHECK_FOUR, IDC_TREE, OnCheckboxFourClicked)
+  //TVN_ITEM_CHECK_ONE
   //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -97,15 +107,15 @@ END_MESSAGE_MAP()
 
 BOOL CCheckboxesTreeDlg::OnInitDialog()
 {
-	CDialog::OnInitDialog();
-  m_radioNone.SetCheck(BST_CHECKED);
+  CDialog::OnInitDialog();
+  m_radioFour.SetCheck(BST_CHECKED);
   m_checkSearchName.SetCheck(BST_CHECKED);
-
+ 
   ReInitializeTree();
   FillTree();
   OnCheckClickedSrchCriteria();
 
-	return TRUE;  // return TRUE  unless you set the focus to a control
+  return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
 
@@ -127,25 +137,21 @@ void CCheckboxesTreeDlg::ReInitializeTree()
     nNumOfCheck = 3;
   else if (BST_CHECKED == m_radioFour.GetCheck())
     nNumOfCheck = 4;
-
+  /*
   if(m_tree)
-	{
-    /*
+  {
     CRect rect;
     m_tree.GetClientRect(rect);
     m_tree.DestroyWindow();
     m_tree.Create(TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | WS_BORDER | WS_HSCROLL | WS_TABSTOP, rect, this, IDC_TREE);
-    */
-	}
-
-
-  
+  }
+  */
   if( m_tree.m_pImgList )
-	{
-		m_tree.m_pImgList->DeleteImageList();
+  {
+	  m_tree.m_pImgList->DeleteImageList();
     m_tree.m_pImgList = NULL;
-		delete m_tree.m_pImgList;
-	}
+	  delete m_tree.m_pImgList;
+  }
   m_tree.m_mapBitmapID.clear();
   
   m_tree.EnableTooltipEx();
@@ -159,6 +165,7 @@ void CCheckboxesTreeDlg::ReInitializeTree()
 
 void CCheckboxesTreeDlg::FillTree()
 {
+  UpdateData();
   m_TreeArrayBackUp.RemoveAll();
 
   //Item 1
@@ -581,50 +588,102 @@ void CCheckboxesTreeDlg::FillTree()
 
 void CCheckboxesTreeDlg::OnBnClickedRadioNone()
 {
+  //Uncheck rest of radio buttons
   m_radioOne.SetCheck(BST_UNCHECKED);
   m_radioTwo.SetCheck(BST_UNCHECKED);
   m_radioThree.SetCheck(BST_UNCHECKED);
   m_radioFour.SetCheck(BST_UNCHECKED);
+  //Refresh tree values
   ReInitializeTree();
+  //Show/Hide lists with selected checkboxes
+  GetDlgItem(IDC_STATIC_SEL_ONE)->ShowWindow(SW_HIDE);
+  m_listOne.ShowWindow(SW_HIDE);
+  GetDlgItem(IDC_STATIC_SEL_TWO)->ShowWindow(SW_HIDE);
+  m_listTwo.ShowWindow(SW_HIDE);
+  GetDlgItem(IDC_STATIC_SEL_THREE)->ShowWindow(SW_HIDE);
+  m_listThree.ShowWindow(SW_HIDE);
+  GetDlgItem(IDC_STATIC_SEL_FOUR)->ShowWindow(SW_HIDE);
+  m_listFour.ShowWindow(SW_HIDE);
 }
 
 void CCheckboxesTreeDlg::OnBnClickedRadioOne()
 {
+  //Uncheck rest of radio buttons
   m_radioNone.SetCheck(BST_UNCHECKED);
   m_radioTwo.SetCheck(BST_UNCHECKED);
   m_radioThree.SetCheck(BST_UNCHECKED);
   m_radioFour.SetCheck(BST_UNCHECKED);
   ReInitializeTree();
+  //Show/Hide lists with selected checkboxes
+  GetDlgItem(IDC_STATIC_SEL_ONE)->ShowWindow(SW_SHOW);
+  m_listOne.ShowWindow(SW_SHOW);
+  GetDlgItem(IDC_STATIC_SEL_TWO)->ShowWindow(SW_HIDE);
+  m_listTwo.ShowWindow(SW_HIDE);
+  GetDlgItem(IDC_STATIC_SEL_THREE)->ShowWindow(SW_HIDE);
+  m_listThree.ShowWindow(SW_HIDE);
+  GetDlgItem(IDC_STATIC_SEL_FOUR)->ShowWindow(SW_HIDE);
+  m_listFour.ShowWindow(SW_HIDE);
 }
-
 
 void CCheckboxesTreeDlg::OnBnClickedRadioTwo()
 {
+  //Uncheck rest of radio buttons
   m_radioNone.SetCheck(BST_UNCHECKED);
   m_radioOne.SetCheck(BST_UNCHECKED);
   m_radioThree.SetCheck(BST_UNCHECKED);
   m_radioFour.SetCheck(BST_UNCHECKED);
+  //Refresh tree values
   ReInitializeTree();
+  //Show/Hide lists with selected checkboxes
+  GetDlgItem(IDC_STATIC_SEL_ONE)->ShowWindow(SW_SHOW);
+  m_listOne.ShowWindow(SW_SHOW);
+  GetDlgItem(IDC_STATIC_SEL_TWO)->ShowWindow(SW_SHOW);
+  m_listTwo.ShowWindow(SW_SHOW);
+  GetDlgItem(IDC_STATIC_SEL_THREE)->ShowWindow(SW_HIDE);
+  m_listThree.ShowWindow(SW_HIDE);
+  GetDlgItem(IDC_STATIC_SEL_FOUR)->ShowWindow(SW_HIDE);
+  m_listFour.ShowWindow(SW_HIDE);
 }
-
 
 void CCheckboxesTreeDlg::OnBnClickedRadioThree()
 {
+  //Uncheck rest of radio buttons
   m_radioNone.SetCheck(BST_UNCHECKED);
   m_radioOne.SetCheck(BST_UNCHECKED);
   m_radioTwo.SetCheck(BST_UNCHECKED);
   m_radioFour.SetCheck(BST_UNCHECKED);
+  //Refresh tree values
   ReInitializeTree();
+  //Show/Hide lists with selected checkboxes
+  GetDlgItem(IDC_STATIC_SEL_ONE)->ShowWindow(SW_SHOW);
+  m_listOne.ShowWindow(SW_SHOW);
+  GetDlgItem(IDC_STATIC_SEL_TWO)->ShowWindow(SW_SHOW);
+  m_listTwo.ShowWindow(SW_SHOW);
+  GetDlgItem(IDC_STATIC_SEL_THREE)->ShowWindow(SW_SHOW);
+  m_listThree.ShowWindow(SW_SHOW);
+  GetDlgItem(IDC_STATIC_SEL_FOUR)->ShowWindow(SW_HIDE);
+  m_listFour.ShowWindow(SW_HIDE);
 }
 
 
 void CCheckboxesTreeDlg::OnBnClickedRadioFour()
 {
+  //Uncheck rest of radio buttons
   m_radioNone.SetCheck(BST_UNCHECKED);
   m_radioOne.SetCheck(BST_UNCHECKED);
   m_radioTwo.SetCheck(BST_UNCHECKED);
   m_radioThree.SetCheck(BST_UNCHECKED);
+  //Refresh tree values
   ReInitializeTree();
+  //Show/Hide lists with selected checkboxes
+  GetDlgItem(IDC_STATIC_SEL_ONE)->ShowWindow(SW_SHOW);
+  m_listOne.ShowWindow(SW_SHOW);
+  GetDlgItem(IDC_STATIC_SEL_TWO)->ShowWindow(SW_SHOW);
+  m_listTwo.ShowWindow(SW_SHOW);
+  GetDlgItem(IDC_STATIC_SEL_THREE)->ShowWindow(SW_SHOW);
+  m_listThree.ShowWindow(SW_SHOW);
+  GetDlgItem(IDC_STATIC_SEL_FOUR)->ShowWindow(SW_SHOW);
+  m_listFour.ShowWindow(SW_SHOW);
 }
 
 
@@ -878,3 +937,92 @@ void CCheckboxesTreeDlg::OnCheckClickedSrchCriteria()
   }
 }
 
+void CCheckboxesTreeDlg::OnCheckboxOneClicked(NMHDR* pNotifyStruct, LRESULT* result)
+{
+  NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNotifyStruct;
+	//Get the old selected item and new item
+	HTREEITEM hOldSelItem = pNMTreeView->itemOld.hItem;
+	HTREEITEM hNewSelItem = pNMTreeView->itemNew.hItem;
+  //Get item text
+	CString szItemText = m_tree.GetItemText(hNewSelItem);
+
+	if (BST_CHECKED == m_tree.GetCheckOne(hNewSelItem))
+	{
+    m_listOne.AddString(szItemText);
+	}
+  else
+  {
+    m_listOne.DeleteString(GetItemIndexFromList(m_listOne, szItemText));
+  }
+}
+
+void CCheckboxesTreeDlg::OnCheckboxTwoClicked(NMHDR* pNotifyStruct, LRESULT* result)
+{
+  NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNotifyStruct;
+	//Get the old selected item and new item
+	HTREEITEM hOldSelItem = pNMTreeView->itemOld.hItem;
+	HTREEITEM hNewSelItem = pNMTreeView->itemNew.hItem;
+  //Get item text
+	CString szItemText = m_tree.GetItemText(hNewSelItem);
+
+	if (BST_CHECKED == m_tree.GetCheckTwo(hNewSelItem))
+	{
+    m_listTwo.AddString(szItemText);
+	}
+  else
+  {
+    m_listTwo.DeleteString(GetItemIndexFromList(m_listTwo, szItemText));
+  }
+}
+
+void CCheckboxesTreeDlg::OnCheckboxThreeClicked(NMHDR* pNotifyStruct, LRESULT* result)
+{
+  NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNotifyStruct;
+	//Get the old selected item and new item
+	HTREEITEM hOldSelItem = pNMTreeView->itemOld.hItem;
+	HTREEITEM hNewSelItem = pNMTreeView->itemNew.hItem;
+  //Get item text
+	CString szItemText = m_tree.GetItemText(hNewSelItem);
+
+	if (BST_CHECKED == m_tree.GetCheckThree(hNewSelItem))
+	{
+    m_listThree.AddString(szItemText);
+	}
+  else
+  {
+    m_listThree.DeleteString(GetItemIndexFromList(m_listThree, szItemText));
+  }
+}
+void CCheckboxesTreeDlg::OnCheckboxFourClicked(NMHDR* pNotifyStruct, LRESULT* result)
+{
+  NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNotifyStruct;
+	//Get the old selected item and new item
+	HTREEITEM hOldSelItem = pNMTreeView->itemOld.hItem;
+	HTREEITEM hNewSelItem = pNMTreeView->itemNew.hItem;
+  //Get item text
+	CString szItemText = m_tree.GetItemText(hNewSelItem);
+
+	if (BST_CHECKED == m_tree.GetCheckFour(hNewSelItem))
+	{
+    m_listFour.AddString(szItemText);
+	}
+  else
+  {
+    m_listFour.DeleteString(GetItemIndexFromList(m_listFour, szItemText));
+  }
+}
+
+int CCheckboxesTreeDlg::GetItemIndexFromList(const CListBox &list, const CString &strItemText)
+{
+  CString szTmp;
+  for (int i=0; i< list.GetCount(); i++)
+  {
+    list.GetText(i, szTmp);
+    if (0 == strItemText.Compare(szTmp))
+    {
+      return i;
+    }
+  }
+
+  return -1;
+}
