@@ -1,0 +1,36 @@
+﻿Build started 06.05.2020 21:53:06.
+     1>Project "F:\Git Trening\CheckboxesTree\CheckboxesTree.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating ".\Release\CheckboxesTree.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Ob1 /Oy- /D WIN32 /D NDEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _MBCS /D _AFXDLL /GF /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp".\Release\CheckboxesTree.pch" /Fo".\Release\\" /Fd".\Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt StdAfx.cpp
+         StdAfx.cpp
+         _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Ob1 /Oy- /D WIN32 /D NDEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _MBCS /D _AFXDLL /GF /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp".\Release\CheckboxesTree.pch" /Fo".\Release\\" /Fd".\Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt CheckboxesTree.cpp CheckboxesTreeCtrl.cpp CheckboxesTreeDlg.cpp TitleTip.cpp TreeItem.cpp
+         CheckboxesTree.cpp
+         CheckboxesTreeCtrl.cpp
+         CheckboxesTreeDlg.cpp
+         TitleTip.cpp
+         TreeItem.cpp
+         Generating Code...
+       ResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D NDEBUG /D _VC80_UPGRADE=0x0600 /D _AFXDLL /l"0x0409" /nologo /fo".\Release\CheckboxesTree.res" CheckboxesTree.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Release\CheckboxesTree.exe" /INCREMENTAL:NO /NOLOGO /MANIFEST /ManifestFile:".\Release\CheckboxesTree.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:"F:\Git Trening\CheckboxesTree\Release\CheckboxesTree.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Release\CheckboxesTree.lib" /MACHINE:X86 .\Release\CheckboxesTree.res
+         .\Release\CheckboxesTree.obj
+         .\Release\CheckboxesTreeCtrl.obj
+         .\Release\CheckboxesTreeDlg.obj
+         .\Release\StdAfx.obj
+         .\Release\TitleTip.obj
+         .\Release\TreeItem.obj
+         CheckboxesTree.vcxproj -> F:\Git Trening\CheckboxesTree\.\Release\CheckboxesTree.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:".\Release\CheckboxesTree.exe;#1" /manifest .\Release\CheckboxesTree.exe.intermediate.manifest "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\Include\Manifest\dpiaware.manifest"
+       FinalizeBuildStatus:
+         Deleting file ".\Release\CheckboxesTree.unsuccessfulbuild".
+         Touching ".\Release\CheckboxesTree.lastbuildstate".
+     1>Done Building Project "F:\Git Trening\CheckboxesTree\CheckboxesTree.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.99
