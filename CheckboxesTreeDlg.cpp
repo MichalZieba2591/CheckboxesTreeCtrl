@@ -586,6 +586,14 @@ void CCheckboxesTreeDlg::FillTree()
   */
 }
 
+void CCheckboxesTreeDlg::ResetListsContent()
+{
+  m_listOne.ResetContent();
+  m_listTwo.ResetContent();
+  m_listThree.ResetContent();
+  m_listFour.ResetContent();
+}
+
 void CCheckboxesTreeDlg::OnBnClickedRadioNone()
 {
   //Uncheck rest of radio buttons
@@ -604,6 +612,8 @@ void CCheckboxesTreeDlg::OnBnClickedRadioNone()
   m_listThree.ShowWindow(SW_HIDE);
   GetDlgItem(IDC_STATIC_SEL_FOUR)->ShowWindow(SW_HIDE);
   m_listFour.ShowWindow(SW_HIDE);
+
+  ResetListsContent();
 }
 
 void CCheckboxesTreeDlg::OnBnClickedRadioOne()
@@ -623,6 +633,8 @@ void CCheckboxesTreeDlg::OnBnClickedRadioOne()
   m_listThree.ShowWindow(SW_HIDE);
   GetDlgItem(IDC_STATIC_SEL_FOUR)->ShowWindow(SW_HIDE);
   m_listFour.ShowWindow(SW_HIDE);
+
+  ResetListsContent();
 }
 
 void CCheckboxesTreeDlg::OnBnClickedRadioTwo()
@@ -643,6 +655,8 @@ void CCheckboxesTreeDlg::OnBnClickedRadioTwo()
   m_listThree.ShowWindow(SW_HIDE);
   GetDlgItem(IDC_STATIC_SEL_FOUR)->ShowWindow(SW_HIDE);
   m_listFour.ShowWindow(SW_HIDE);
+
+  ResetListsContent();
 }
 
 void CCheckboxesTreeDlg::OnBnClickedRadioThree()
@@ -663,6 +677,8 @@ void CCheckboxesTreeDlg::OnBnClickedRadioThree()
   m_listThree.ShowWindow(SW_SHOW);
   GetDlgItem(IDC_STATIC_SEL_FOUR)->ShowWindow(SW_HIDE);
   m_listFour.ShowWindow(SW_HIDE);
+
+  ResetListsContent();
 }
 
 

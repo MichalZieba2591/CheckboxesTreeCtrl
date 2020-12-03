@@ -944,7 +944,7 @@ void CCheckboxesTreeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 					chdr.m_hdr.code			=  TVN_ITEM_CHECK_ONE;
 					chdr.m_hItem					=  hClickedItem;
 					chdr.m_data 					=  pCustData;
-          SelectFocusItem(hClickedItem);
+					SelectFocusItem(hClickedItem);
 					SendMessage(TVN_ITEM_CHECK_ONE, (WPARAM)&chdr, (LPARAM)chdr.m_hdr.idFrom );		
 		      /*
 		            pCustData->m_bCheckState1 = !pCustData->m_bCheckState1;	
@@ -974,7 +974,7 @@ void CCheckboxesTreeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 					chdr.m_hdr.code			=  TVN_ITEM_CHECK_TWO;
 					chdr.m_hItem					=  hClickedItem;
 					chdr.m_data 					=  pCustData;
-          SelectFocusItem(hClickedItem);
+				SelectFocusItem(hClickedItem);
 					SendMessage(TVN_ITEM_CHECK_TWO, (WPARAM)&chdr, (LPARAM)chdr.m_hdr.idFrom );		
           /*
 			        pCustData->m_bCheckState2 = !pCustData->m_bCheckState2;	

@@ -45,6 +45,7 @@ public:
   void ReInitializeTree();
   void FillTree();
   void OnSearch();
+  void ResetListsContent();
   int GetItemIndexFromList(const CListBox &list, const CString &strItemText);
 
 // Implementation
